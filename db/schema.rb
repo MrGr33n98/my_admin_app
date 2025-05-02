@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_02_185522) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_02_190957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -85,6 +85,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_02_185522) do
     t.index ["company_id"], name: "index_impressions_on_company_id"
   end
 
+  create_table "lead_saas", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "company_name"
+    t.string "source"
+    t.string "stage"
+    t.datetime "captured_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "leads", force: :cascade do |t|
     t.bigint "company_id", null: false
     t.string "lead_type"
@@ -96,6 +107,39 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_02_185522) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_leads_on_company_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "role"
+    t.bigint "company_id", null: false
+    t.string "status"
+    t.datetime "joined_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_members_on_company_id"
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "price"
+    t.string "billing_cycle"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_accesses", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.string "product_name"
+    t.string "access_level"
+    t.datetime "granted_at"
+    t.datetime "revoked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_product_accesses_on_member_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -118,11 +162,26 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_02_185522) do
     t.index ["company_id"], name: "index_services_on_company_id"
   end
 
+  create_table "sponsored_products", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "product_name"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.decimal "price_paid"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_sponsored_products_on_company_id"
+  end
+
   add_foreign_key "company_categories", "categories"
   add_foreign_key "company_categories", "companies"
   add_foreign_key "company_images", "companies"
   add_foreign_key "impressions", "companies"
   add_foreign_key "leads", "companies"
+  add_foreign_key "members", "companies"
+  add_foreign_key "product_accesses", "members"
   add_foreign_key "reviews", "companies"
   add_foreign_key "services", "companies"
+  add_foreign_key "sponsored_products", "companies"
 end

@@ -1,0 +1,47 @@
+<%= form_with(model: sponsored_product) do |form| %>
+  <% if sponsored_product.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(sponsored_product.errors.count, "error") %> prohibited this sponsored_product from being saved:</h2>
+
+      <ul>
+        <% sponsored_product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :company_id, style: "display: block" %>
+    <%= form.text_field :company_id %>
+  </div>
+
+  <div>
+    <%= form.label :product_name, style: "display: block" %>
+    <%= form.text_field :product_name %>
+  </div>
+
+  <div>
+    <%= form.label :start_date, style: "display: block" %>
+    <%= form.datetime_field :start_date %>
+  </div>
+
+  <div>
+    <%= form.label :end_date, style: "display: block" %>
+    <%= form.datetime_field :end_date %>
+  </div>
+
+  <div>
+    <%= form.label :price_paid, style: "display: block" %>
+    <%= form.text_field :price_paid %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

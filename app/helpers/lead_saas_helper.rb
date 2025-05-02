@@ -1,0 +1,2 @@
+module LeadSaasHelper
+end

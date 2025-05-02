@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :product_accesses
+  resources :sponsored_products
+  resources :plans
+  resources :lead_saas
+  resources :members
   resources :impressions
   resources :leads
   resources :reviews

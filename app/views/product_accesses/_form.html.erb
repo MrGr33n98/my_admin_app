@@ -1,0 +1,42 @@
+<%= form_with(model: product_access) do |form| %>
+  <% if product_access.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(product_access.errors.count, "error") %> prohibited this product_access from being saved:</h2>
+
+      <ul>
+        <% product_access.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :member_id, style: "display: block" %>
+    <%= form.text_field :member_id %>
+  </div>
+
+  <div>
+    <%= form.label :product_name, style: "display: block" %>
+    <%= form.text_field :product_name %>
+  </div>
+
+  <div>
+    <%= form.label :access_level, style: "display: block" %>
+    <%= form.text_field :access_level %>
+  </div>
+
+  <div>
+    <%= form.label :granted_at, style: "display: block" %>
+    <%= form.datetime_field :granted_at %>
+  </div>
+
+  <div>
+    <%= form.label :revoked_at, style: "display: block" %>
+    <%= form.datetime_field :revoked_at %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

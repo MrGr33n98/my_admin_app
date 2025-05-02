@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @lead_saa %>
+
+<div>
+  <%= link_to "Edit this lead saa", edit_lead_saa_path(@lead_saa) %> |
+  <%= link_to "Back to lead saas", lead_saas_path %>
+
+  <%= button_to "Destroy this lead saa", @lead_saa, method: :delete %>
+</div>

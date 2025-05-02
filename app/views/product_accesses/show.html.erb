@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @product_access %>
+
+<div>
+  <%= link_to "Edit this product access", edit_product_access_path(@product_access) %> |
+  <%= link_to "Back to product accesses", product_accesses_path %>
+
+  <%= button_to "Destroy this product access", @product_access, method: :delete %>
+</div>

@@ -1,0 +1,2 @@
+class LeadSaa < ApplicationRecord
+end

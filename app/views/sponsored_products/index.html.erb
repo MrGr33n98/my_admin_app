@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Sponsored products</h1>
+
+<div id="sponsored_products">
+  <% @sponsored_products.each do |sponsored_product| %>
+    <%= render sponsored_product %>
+    <p>
+      <%= link_to "Show this sponsored product", sponsored_product %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New sponsored product", new_sponsored_product_path %>
