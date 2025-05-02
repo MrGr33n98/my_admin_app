@@ -1,0 +1,52 @@
+<%= form_with(model: lead) do |form| %>
+  <% if lead.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(lead.errors.count, "error") %> prohibited this lead from being saved:</h2>
+
+      <ul>
+        <% lead.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :company_id, style: "display: block" %>
+    <%= form.text_field :company_id %>
+  </div>
+
+  <div>
+    <%= form.label :lead_type, style: "display: block" %>
+    <%= form.text_field :lead_type %>
+  </div>
+
+  <div>
+    <%= form.label :client_name, style: "display: block" %>
+    <%= form.text_field :client_name %>
+  </div>
+
+  <div>
+    <%= form.label :client_email, style: "display: block" %>
+    <%= form.text_field :client_email %>
+  </div>
+
+  <div>
+    <%= form.label :client_phone, style: "display: block" %>
+    <%= form.text_field :client_phone %>
+  </div>
+
+  <div>
+    <%= form.label :date, style: "display: block" %>
+    <%= form.date_field :date %>
+  </div>
+
+  <div>
+    <%= form.label :value, style: "display: block" %>
+    <%= form.number_field :value %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

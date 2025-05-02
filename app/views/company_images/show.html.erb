@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @company_image %>
+
+<div>
+  <%= link_to "Edit this company image", edit_company_image_path(@company_image) %> |
+  <%= link_to "Back to company images", company_images_path %>
+
+  <%= button_to "Destroy this company image", @company_image, method: :delete %>
+</div>

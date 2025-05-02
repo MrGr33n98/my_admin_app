@@ -1,0 +1,37 @@
+<%= form_with(model: impression) do |form| %>
+  <% if impression.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(impression.errors.count, "error") %> prohibited this impression from being saved:</h2>
+
+      <ul>
+        <% impression.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :company_id, style: "display: block" %>
+    <%= form.text_field :company_id %>
+  </div>
+
+  <div>
+    <%= form.label :impression_type, style: "display: block" %>
+    <%= form.text_field :impression_type %>
+  </div>
+
+  <div>
+    <%= form.label :date, style: "display: block" %>
+    <%= form.datetime_field :date %>
+  </div>
+
+  <div>
+    <%= form.label :value, style: "display: block" %>
+    <%= form.number_field :value %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

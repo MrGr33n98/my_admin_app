@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_02_115352) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_02_185522) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,4 +40,89 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_02_115352) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "location"
+    t.integer "price_range"
+    t.string "website_url"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "company_categories", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_company_categories_on_category_id"
+    t.index ["company_id"], name: "index_company_categories_on_company_id"
+  end
+
+  create_table "company_images", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "image_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_images_on_company_id"
+  end
+
+  create_table "impressions", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "impression_type"
+    t.datetime "date"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_impressions_on_company_id"
+  end
+
+  create_table "leads", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "lead_type"
+    t.string "client_name"
+    t.string "client_email"
+    t.string "client_phone"
+    t.date "date"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_leads_on_company_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.text "content"
+    t.integer "rating"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_reviews_on_company_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "name"
+    t.text "description"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_services_on_company_id"
+  end
+
+  add_foreign_key "company_categories", "categories"
+  add_foreign_key "company_categories", "companies"
+  add_foreign_key "company_images", "companies"
+  add_foreign_key "impressions", "companies"
+  add_foreign_key "leads", "companies"
+  add_foreign_key "reviews", "companies"
+  add_foreign_key "services", "companies"
 end
