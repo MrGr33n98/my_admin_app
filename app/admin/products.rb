@@ -1,6 +1,11 @@
 ActiveAdmin.register Product do
     permit_params :name, :description, :status
   
+    scope :all, default: true
+    scope("Ativos")   { |products| products.where(status: "active") }
+    scope("Inativos") { |products| products.where(status: "inactive") }
+    scope("Arquivados") { |products| products.where(status: "archived") }
+  
     index do
       selectable_column
       id_column

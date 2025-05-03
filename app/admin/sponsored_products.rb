@@ -1,6 +1,11 @@
 ActiveAdmin.register SponsoredProduct do
   permit_params :company_id, :product_name, :start_date, :end_date, :price_paid
 
+  scope :all, default: true
+  scope("ATIVOS")    { |s| s.select(&:active?) }
+  scope("Pendentes") { |s| s.select { |sp| sp.status == 'pending' } }
+  scope("Expirados") { |s| s.select { |sp| sp.status == 'expired' } }
+
   index do
     selectable_column
     id_column

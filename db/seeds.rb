@@ -49,5 +49,5 @@ if Rails.env.development?
     )
   end
   
-  puts "✅ Seed finalizado com sucesso!"
+  puts " Seed finalizado com sucesso!"
   
