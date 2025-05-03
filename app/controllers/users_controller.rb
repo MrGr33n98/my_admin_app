@@ -1,9 +1,12 @@
-class UsersController < InheritedResources::Base
+# app/controllers/products_controller.rb
+class ProductsController < ApplicationController
+  def index
+    @products = Product.all
+  end
 
-  private
+  def show
+    @product = Product.find(params[:id])
+  end
 
-    def user_params
-      params.require(:user).permit(:name, :email, :primary_phone, :secondary_phone, :company_name, :admin, :email_confirmed)
-    end
-
+  # outros métodos se necessário: new, create, edit, update, destroy
 end
