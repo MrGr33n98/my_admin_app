@@ -1,9 +1,20 @@
-class CompaniesController < InheritedResources::Base
+class Company < ApplicationRecord
+  # ... seus outros métodos, associações, etc.
 
-  private
-
-    def company_params
-      params.require(:company).permit(:name, :description, :location, :price_range, :website_url, :contact_email, :contact_phone)
-    end
-
+  def self.ransackable_attributes(auth_object = nil)
+    %w[
+      city
+      contact_email
+      contact_phone
+      created_at
+      description
+      id
+      location
+      name
+      price_range
+      state
+      updated_at
+      website_url
+    ]
+  end
 end

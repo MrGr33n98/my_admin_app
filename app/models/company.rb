@@ -1,6 +1,21 @@
 class Company < ApplicationRecord
-    has_many :company_categories, dependent: :destroy
-    has_many :categories, through: :company_categories
-    has_many :plans, dependent: :destroy
+    # ... seus outros métodos, associações, etc.
+  
+    def self.ransackable_attributes(auth_object = nil)
+      %w[
+        city
+        contact_email
+        contact_phone
+        created_at
+        description
+        id
+        location
+        name
+        price_range
+        state
+        updated_at
+        website_url
+      ]
+    end
   end
   
