@@ -3,6 +3,18 @@ ActiveAdmin.register Plan do
                 :currency, :billing_type, :payment_method,
                 :billing_frequency, :billing_cycle, :product_id
 
+  # Abas de escopo no topo da listagem
+  scope :all, default: true
+  scope("Clientes")       { |plans| plans.where(name: "Clientes") }
+  scope("Advanced")       { |plans| plans.where(name: "Advanced") }
+  scope("Profissional")   { |plans| plans.where(name: "Profissional") }
+  scope("Starter")        { |plans| plans.where(name: "Starter") }
+  scope("Prospecção")     { |plans| plans.where(name: "Prospecção") }
+  scope("Growth")         { |plans| plans.where(name: "Growth") }
+  scope("Reputation")     { |plans| plans.where(name: "Reputation") }
+  scope("Gratuitos")      { |plans| plans.where(price: 0) }
+
+  # 📄 Tabela de listagem
   index do
     selectable_column
     id_column
@@ -18,6 +30,7 @@ ActiveAdmin.register Plan do
     actions
   end
 
+  # 🔍 Filtros laterais
   filter :name
   filter :price
   filter :currency, as: :select, collection: Plan.currencies.keys
@@ -28,6 +41,7 @@ ActiveAdmin.register Plan do
   filter :status, as: :select, collection: Plan.statuses.keys
   filter :product
 
+  # 📝 Formulário de criação/edição
   form do |f|
     f.inputs "Informações do Plano" do
       f.input :name

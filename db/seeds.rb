@@ -6,12 +6,13 @@ if Rails.env.development?
     end
   end
   
-  # Garante que não haja dados duplicados
+  puts "🧹 Limpando dados antigos..."
   Review.destroy_all
   Company.destroy_all
+  Product.destroy_all
+  Plan.destroy_all
   
-  puts "🔄 Limpando e populando Company e Review..."
-  
+  puts "🔄 Criando empresas e reviews..."
   3.times do |i|
     company = Company.create!(
       name: "Empresa #{i + 1}",
@@ -26,9 +27,26 @@ if Rails.env.development?
         date: Date.today - rand(1..30).days,
         status: Review.statuses.keys.sample
       )
-
-    
     end
+  end
+  
+  puts "📦 Criando produto base para planos..."
+  product = Product.create!(name: "Produto Base", description: "Produto de teste para associação aos planos", status: "active")
+  
+  puts "📋 Criando planos SaaS com escopos diversos..."
+  %w[Starter Growth Profissional Clientes Advanced Prospecção Reputation Gratuito].each do |plan_name|
+    Plan.create!(
+      name: plan_name,
+      price: plan_name == "Gratuito" ? 0 : rand(49..299),
+      description: "Plano #{plan_name} com acesso aos principais recursos.",
+      status: "active",
+      currency: "brl",
+      billing_type: "recurring",
+      payment_method: "credit_card",
+      billing_frequency: "anual",
+      billing_cycle: "mensal",
+      product: product
+    )
   end
   
   puts "✅ Seed finalizado com sucesso!"
