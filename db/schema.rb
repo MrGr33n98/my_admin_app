@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_02_212229) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_03_000248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -139,6 +139,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_02_212229) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "currency"
+    t.integer "billing_type"
+    t.integer "payment_method"
+    t.string "status"
+    t.string "billing_frequency"
+    t.bigint "product_id", null: false
+    t.index ["product_id"], name: "index_plans_on_product_id"
   end
 
   create_table "product_accesses", force: :cascade do |t|
@@ -150,6 +157,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_02_212229) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_product_accesses_on_member_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -202,6 +216,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_02_212229) do
   add_foreign_key "impressions", "companies"
   add_foreign_key "leads", "companies"
   add_foreign_key "members", "companies"
+  add_foreign_key "plans", "products"
   add_foreign_key "product_accesses", "members"
   add_foreign_key "reviews", "companies"
   add_foreign_key "services", "companies"
