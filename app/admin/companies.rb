@@ -106,10 +106,14 @@ ActiveAdmin.register Company do
       end
 
       tab 'Categorias' do
-        f.inputs do
-          f.input :categories, as: :select,
-                               collection: Category.pluck(:name, :id),
-                               input_html: { multiple: true }
+        f.inputs "Todas as Categorias" do
+          f.input :category_ids,
+                  as: :check_boxes,
+                  collection: Category.all.order(:parent_id, :name).map { |cat|
+                    label = cat.parent ? "↳ #{cat.name}" : cat.name
+                    [label, cat.id]
+                  },
+                  input_html: { style: "margin-left: 10px;" }
         end
       end
 
