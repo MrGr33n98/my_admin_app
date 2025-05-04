@@ -1,22 +1,13 @@
-ActiveAdmin.register CompanyCategory do
-  permit_params :company_id, :category_id
+class CompanyCategory < ApplicationRecord
+  belongs_to :company
+  belongs_to :category
 
-  index do
-    selectable_column
-    id_column
-    column :company
-    column :category
-    actions
+  # Permite filtros e uso no ActiveAdmin (Ransack)
+  def self.ransackable_attributes(auth_object = nil)
+    %w[company_id category_id created_at updated_at]
   end
 
-  filter :company
-  filter :category
-
-  form do |f|
-    f.inputs do
-      f.input :company
-      f.input :category
-    end
-    f.actions
+  def self.ransackable_associations(auth_object = nil)
+    %w[company category]
   end
 end
