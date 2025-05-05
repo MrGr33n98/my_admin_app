@@ -1,0 +1,12 @@
+<h3>Importar Categorias via CSV</h3>
+
+<%= form_tag import_csv_admin_categories_path, multipart: true do %>
+  <div class="input">
+    <%= label_tag :file, "Arquivo CSV" %>
+    <%= file_field_tag :file %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag "Importar", class: "btn" %>
+  </div>
+<% end %>
