@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_04_224457) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_06_121918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -107,6 +107,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_224457) do
     t.string "city", default: "Não especificado"
     t.boolean "starred", default: false, null: false
     t.string "status"
+    t.string "seo_url"
+    t.index ["seo_url"], name: "index_companies_on_seo_url", unique: true
+  end
+
+  create_table "company_banners", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "image"
+    t.string "caption"
+    t.string "link_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_banners_on_company_id"
   end
 
   create_table "company_categories", force: :cascade do |t|
@@ -282,6 +294,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_04_224457) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "categories"
   add_foreign_key "articles", "products"
+  add_foreign_key "company_banners", "companies"
   add_foreign_key "company_categories", "categories"
   add_foreign_key "company_categories", "companies"
   add_foreign_key "company_images", "companies"
