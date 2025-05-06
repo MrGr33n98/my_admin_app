@@ -1,12 +1,16 @@
-<h3>Importar Categorias via CSV</h3>
+<%# app/views/admin/categories/upload_csv.html.erb %>
 
-<%= form_tag import_csv_admin_categories_path, multipart: true do %>
-  <div class="input">
-    <%= label_tag :file, "Arquivo CSV" %>
-    <%= file_field_tag :file %>
+<h1>Importar Categories por CSV</h1>
+
+<%= form_with url: import_csv_admin_categories_path,
+              multipart: true,
+              local: true do |f| %>
+
+  <div class="inputs">
+    <%= file_field_tag :file, accept: '.csv', required: true %>
   </div>
 
   <div class="actions">
-    <%= submit_tag "Importar", class: "btn" %>
+    <%= f.submit 'Importar CSV', class: 'button' %>
   </div>
 <% end %>

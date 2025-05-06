@@ -1,0 +1,3 @@
+name,description,location,city,state,status,price_range,website_url,contact_email,contact_phone,starred,categories
+Empresa Exemplo,Descrição da empresa,Endereço completo,São Paulo,SP,active,$$$,https://empresa.com,contato@empresa.com,11999999999,true,Tecnologia;Software
+Loja Virtual,Lojinha online,Rua Digital 123,Rio de Janeiro,RJ,active,$,https://loja.com,vendas@loja.com,21988888888,false,Varejo

@@ -1,0 +1,19 @@
+<%= active_admin_form_for :import, url: import_csv_admin_companies_path, html: { multipart: true } do |f|
+    f.inputs "Importar Empresas via CSV" do
+      f.input :file, as: :file, required: true
+    end
+    f.actions do
+      f.action :submit, label: "Importar"
+      f.action :cancel, label: "Cancelar", wrapper_html: { class: 'cancel' }
+    end
+  end %>
+  
+  <div class="csv-instructions">
+    <h3>Instruções para o arquivo CSV:</h3>
+    <ul>
+      <li>Formato esperado: name,description,location,city,state,status,price_range,website_url,contact_email,contact_phone,starred,categories</li>
+      <li>Categorias múltiplas devem ser separadas por ponto-e-vírgula (;)</li>
+      <li>Campos obrigatórios: name</li>
+      <li><%= link_to "Download do Modelo CSV", asset_path("company_import_template.csv"), class: 'button' %></li>
+    </ul>
+  </div>

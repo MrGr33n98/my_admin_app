@@ -1,0 +1,22 @@
+<h2>Importar Empresas via CSV</h2>
+
+<%= form_with url: [:import_csv, :admin, :companies], multipart: true, local: true do |f| %>
+  <div class="form-inputs">
+    <%= f.label :csv_file, "Arquivo CSV" %>
+    <%= f.file_field :csv_file %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Importar" %>
+  </div>
+<% end %>
+
+<p>
+  <strong>Formato esperado do CSV:</strong><br>
+  Colunas: name,description,location,state,city,status,price_range,website_url,contact_email,contact_phone,starred,category_names<br>
+  Exemplo:<br>
+  <code>
+    name,description,location,state,city,status,price_range,website_url,contact_email,contact_phone,starred,category_names<br>
+    "Empresa X","Descrição da empresa","Rua Exemplo, 123","SP","São Paulo","active",2,"http://exemplo.com","contato@exemplo.com","(11) 99999-9999",true,"Categoria A,Categoria B"<br>
+  </code>
+</p>

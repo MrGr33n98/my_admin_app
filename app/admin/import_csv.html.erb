@@ -1,0 +1,12 @@
+<h3>Importar Empresas via CSV</h3>
+
+<%= form_with url: import_csv_admin_companies_path, multipart: true, method: :post do |f| %>
+  <div>
+    <%= f.label :file, "Selecione o arquivo CSV" %>
+    <%= f.file_field :file, required: true %>
+  </div>
+
+  <%= f.submit "Importar CSV", class: "button" %>
+<% end %>
+
+<%= link_to "Baixar Modelo CSV", asset_path("company_import_template.csv"), class: 'button' %>

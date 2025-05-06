@@ -1,0 +1,3 @@
+//= link company_import_template.csv
+// ou, se você guardar em subpasta:
+//= link_tree ../files .csv
