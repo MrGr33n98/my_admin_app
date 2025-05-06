@@ -1,0 +1,16 @@
+<h3>Resultado da Importação</h3>
+
+<p>Empresas criadas: <%= @result[:imported] %></p>
+<p>Erros: <%= @result[:errors].size %></p>
+
+<% if @result[:errors].any? %>
+  <h4>Erros detalhados:</h4>
+  <ul>
+    <% @result[:errors].each do |error| %>
+      <li>
+        Linha: <%= error[:row] %><br>
+        Mensagens: <%= error[:messages].join(', ') %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

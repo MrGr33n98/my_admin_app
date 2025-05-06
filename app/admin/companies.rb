@@ -48,7 +48,7 @@ ActiveAdmin.register Company do
       return
     end
 
-    result = Company.import_csv(params[:file]) # usa método do model
+    result = Company.import_from_csv(params[:file]) # usa método do model
     msg = "Empresas criadas: #{result[:imported]}"
     msg += " | Erros: #{result[:errors].size}" if result[:errors].any?
     flash[result[:errors].any? ? :alert : :notice] = msg
