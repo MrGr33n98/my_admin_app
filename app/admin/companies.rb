@@ -11,7 +11,6 @@ ActiveAdmin.register Company do
   # ------------------------------------------------------------------
   # Filtros
   # ------------------------------------------------------------------
-  # Mantém filtros habilitados, mas oculta os automáticos irrelevantes
   remove_filter :id, :created_at, :updated_at
   remove_filter :logo_attachment, :logo_blob,
                 :banner_attachment, :banner_blob
@@ -30,17 +29,14 @@ ActiveAdmin.register Company do
   # ------------------------------------------------------------------
   # Ação de importação CSV
   # ------------------------------------------------------------------
-  # Botão no Index
   action_item :import_csv, only: :index do
     link_to 'Importar CSV', upload_csv_admin_companies_path
   end
 
-  # 1) Tela com o formulário de upload
   collection_action :upload_csv, method: :get do
-    render 'admin/companies/upload_csv'  # crie esse view
+    render 'admin/companies/upload_csv'
   end
 
-  # 2) Endpoint que processa o arquivo
   collection_action :import_csv, method: :post do
     if params[:file].blank?
       redirect_to upload_csv_admin_companies_path,
@@ -48,7 +44,7 @@ ActiveAdmin.register Company do
       return
     end
 
-    result = Company.import_from_csv(params[:file]) # usa método do model
+    result = Company.import_csv(params[:file])
     msg = "Empresas criadas: #{result[:imported]}"
     msg += " | Erros: #{result[:errors].size}" if result[:errors].any?
     flash[result[:errors].any? ? :alert : :notice] = msg
@@ -93,11 +89,11 @@ ActiveAdmin.register Company do
       row(:categories) { |c| c.category_names }
       row :logo do |c|
         c.logo.attached? ? image_tag(url_for(c.logo), width: 150) :
-                           status_tag('Sem logo', :warning)
+                           status_tag('Sem logo', class: 'status-tag warning')
       end
       row :banner do |c|
         c.banner.attached? ? image_tag(url_for(c.banner), width: 300) :
-                             status_tag('Sem banner', :warning)
+                             status_tag('Sem banner', class: 'status-tag warning')
       end
     end
 
