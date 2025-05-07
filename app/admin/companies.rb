@@ -1,11 +1,12 @@
 ActiveAdmin.register Company do
   permit_params :name, :description, :location, :state, :city,
                 :status, :price_range, :website_url, :contact_email,
-                :contact_phone, :starred, :logo, :banner,
+                :contact_phone, :starred, :seo_url, :logo, :banner,
                 category_ids: []
 
   # Filtros
   filter :name
+  filter :seo_url
   filter :city
   filter :state
   filter :status, as: :select, collection: %w[active draft inactive]
@@ -14,11 +15,19 @@ ActiveAdmin.register Company do
                       collection: -> { Category.pluck(:name, :id) },
                       multiple: true
 
+  # Customização da busca para usar seo_url
+  controller do
+    def find_resource
+      scoped_collection.friendly.find(params[:id])
+    end
+  end
+
   # Lista
   index do
     selectable_column
     id_column
     column :name
+    column :seo_url
     column :status do |company|
       status_tag company.status, class: company.status == "active" ? "green" : "red"
     end
@@ -41,6 +50,7 @@ ActiveAdmin.register Company do
   show do
     attributes_table do
       row :name
+      row :seo_url
       row :description
       row :location
       row :state
@@ -87,6 +97,7 @@ ActiveAdmin.register Company do
       tab 'Dados Básicos' do
         f.inputs do
           f.input :name
+          f.input :seo_url, hint: 'Slug amigável (URL) gerado a partir do nome'
           f.input :description
           f.input :location
           f.input :state
