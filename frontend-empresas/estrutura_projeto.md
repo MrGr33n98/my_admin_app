@@ -1,0 +1,26 @@
+# Estrutura de Pastas do Projeto frontend-empresas
+
+- README.md
+- eslint.config.mjs
+- estrutura_projeto.md
+- next-env.d.ts
+- next.config.ts
+- package-lock.json
+- package.json
+- postcss.config.mjs
+- public
+  - file.svg
+  - globe.svg
+  - next.svg
+  - vercel.svg
+  - window.svg
+- src
+  - app
+    - empresas
+      - [seo_url]
+        - page.tsx
+    - favicon.ico
+    - globals.css
+    - layout.tsx
+    - page.tsx
+- tsconfig.json
