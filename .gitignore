@@ -36,3 +36,7 @@
 
 # Ignore node modules
 frontend-empresas/node_modules/
+# Ignora build e dependências do Next.js
+/frontend-empresas/node_modules
+/frontend-empresas/.next
+/frontend-empresas/.env.local
