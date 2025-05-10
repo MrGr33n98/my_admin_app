@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_10_172352) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -103,22 +103,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
     t.string "contact_phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "seo_url"
     t.string "state"
     t.string "city", default: "Não especificado"
     t.boolean "starred", default: false, null: false
     t.string "status"
-    t.string "seo_url"
+    t.string "slug"
     t.index ["seo_url"], name: "index_companies_on_seo_url", unique: true
-  end
-
-  create_table "company_banners", force: :cascade do |t|
-    t.bigint "company_id", null: false
-    t.string "image"
-    t.string "caption"
-    t.string "link_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_company_banners_on_company_id"
+    t.index ["slug"], name: "index_companies_on_slug", unique: true
   end
 
   create_table "company_categories", force: :cascade do |t|
@@ -127,26 +119,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_company_categories_on_category_id"
+    t.index ["company_id", "category_id"], name: "index_company_categories_on_company_id_and_category_id", unique: true
     t.index ["company_id"], name: "index_company_categories_on_company_id"
-  end
-
-  create_table "company_images", force: :cascade do |t|
-    t.bigint "company_id", null: false
-    t.string "image_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_company_images_on_company_id"
-  end
-
-  create_table "friendly_id_slugs", force: :cascade do |t|
-    t.string "slug", null: false
-    t.integer "sluggable_id", null: false
-    t.string "sluggable_type", limit: 50
-    t.string "scope"
-    t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
-    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
   create_table "impressions", force: :cascade do |t|
@@ -171,18 +145,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
   end
 
   create_table "leads", force: :cascade do |t|
+    t.string "nome"
+    t.string "email"
+    t.string "cargo"
+    t.integer "score"
     t.bigint "company_id", null: false
-    t.string "lead_type"
-    t.string "client_name"
-    t.string "client_email"
-    t.string "client_phone"
-    t.date "date"
-    t.integer "value"
+    t.bigint "product_id", null: false
+    t.string "porte_empresa"
+    t.string "categoria_desejada"
+    t.string "status"
+    t.datetime "distribuido_em"
+    t.datetime "convertido_em"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status"
-    t.integer "porte_empresa"
     t.index ["company_id"], name: "index_leads_on_company_id"
+    t.index ["product_id"], name: "index_leads_on_product_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -200,18 +177,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
   create_table "plans", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.decimal "price"
-    t.string "billing_cycle"
-    t.boolean "active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.decimal "price", precision: 10, scale: 2
+    t.integer "status"
     t.integer "currency"
     t.integer "billing_type"
     t.integer "payment_method"
-    t.string "status"
     t.string "billing_frequency"
+    t.string "billing_cycle"
     t.bigint "product_id", null: false
-    t.string "plan_category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_plans_on_product_id"
   end
 
@@ -223,7 +198,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
     t.datetime "revoked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.index ["member_id"], name: "index_product_accesses_on_member_id"
   end
 
@@ -232,7 +206,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
+    t.string "status", default: "active", null: false
     t.string "state"
     t.string "city"
     t.string "website"
@@ -240,9 +214,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
     t.string "contact_name"
     t.string "contact_email"
     t.string "contact_phone"
-    t.json "services"
-    t.json "advantages"
-    t.json "testimonials"
+    t.jsonb "services", default: []
+    t.jsonb "advantages", default: []
+    t.jsonb "testimonials", default: []
+    t.bigint "category_id"
+    t.string "image"
+    t.text "short_description"
+    t.index ["category_id"], name: "index_products_on_category_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -252,7 +230,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status"
+    t.integer "status", default: 0
     t.index ["company_id"], name: "index_reviews_on_company_id"
   end
 
@@ -265,6 +243,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
     t.string "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "products"
   end
 
   create_table "services", force: :cascade do |t|
@@ -305,15 +284,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_184253) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "categories"
   add_foreign_key "articles", "products"
-  add_foreign_key "company_banners", "companies"
   add_foreign_key "company_categories", "categories"
   add_foreign_key "company_categories", "companies"
-  add_foreign_key "company_images", "companies"
   add_foreign_key "impressions", "companies"
   add_foreign_key "leads", "companies"
+  add_foreign_key "leads", "products"
   add_foreign_key "members", "companies"
   add_foreign_key "plans", "products"
   add_foreign_key "product_accesses", "members"
+  add_foreign_key "products", "categories"
   add_foreign_key "reviews", "companies"
   add_foreign_key "services", "companies"
   add_foreign_key "sponsored_products", "companies"
